@@ -5,20 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEN Parser Interativo</title>
     <style>
-        /* Estilos simples para melhor visualização */
+        /* Estilos Base */
         body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { border-bottom: 2px solid #ccc; padding-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"] { width: 100%; max-width: 600px; padding: 10px; margin-bottom: 15px; box-sizing: border-box; font-size: 16px; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; margin-bottom: 30px; border-radius: 5px; }
+        .error { color: red; font-weight: bold; }
+        .success { color: green; }
+
+        /* --- ESTILOS DO TABULEIRO (CSS) --- */
+        #board-section { display: flex; gap: 40px; margin-bottom: 30px; }
+        
+        .chessboard {
+            display: flex;
+            flex-direction: column; /* Para empilhar as fileiras verticalmente (8 a 1) */
+            width: 400px; /* Largura total do tabuleiro */
+            height: 400px; /* Altura total do tabuleiro */
+            border: 5px solid #333;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .rank {
+            display: flex; /* Para as casas ficarem lado a lado */
+            flex: 1; /* Garante que cada fileira ocupe 1/8 da altura */
+        }
+
+        .square {
+            flex: 1; /* Garante que cada casa ocupe 1/8 da largura */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px; /* Tamanho da peça (ajustável) */
+            font-weight: bold;
+            user-select: none; /* Impede a seleção de texto/peça */
+        }
+
+        /* Cores das peças */
+        .piece.black { color: #000; }
+        .piece.white { color: #fff; text-shadow: 1px 1px 2px #000; } 
+        
+        /* Estilo da saída JSON */
         #output { 
-            margin-top: 20px; 
+            max-width: 600px;
             padding: 15px; 
             border: 1px solid #ccc; 
             background-color: #f9f9f9;
-            white-space: pre-wrap; /* Mantém a formatação do JSON */
         }
-        .error { color: red; font-weight: bold; }
-        .success { color: green; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"] { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
-        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        #output pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
     </style>
 </head>
 <body>
@@ -28,12 +62,17 @@
     <form id="fenForm">
         <label for="fenInput">Insira a String FEN:</label>
         <input type="text" id="fenInput" value="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" required>
-        
         <button type="submit">Analisar FEN</button>
     </form>
+    
+    <div id="board-section">
+        <div id="board-container">
+            <p>O tabuleiro aparecerá aqui.</p>
+        </div>
 
-    <div id="output">
-        Aguardando FEN para análise...
+        <div id="output">
+            Aguardando FEN para análise...
+        </div>
     </div>
 
     <script src="fen-parser.js"></script>
